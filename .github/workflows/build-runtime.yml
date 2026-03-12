@@ -67,7 +67,7 @@ jobs:
         id: detect-modules
         shell: bash
         run: |
-          MODULES=$(jdeps --multi-release 11 --print-module-deps --ignore-missing-deps ${{ steps.config.outputs.mainJar }})
+          MODULES=$(jdeps --multi-release ${{ steps.config.outputs.javaVersion }} --print-module-deps --ignore-missing-deps ${{ steps.config.outputs.mainJar }})
           echo "modules=$MODULES" >> $GITHUB_OUTPUT
           echo "Detected modules: $MODULES"
 
@@ -89,7 +89,7 @@ jobs:
           fi
 
           # Combine detected modules with crypto modules
-          ALL_MODULES="${MODULES},${CRYPTO_MODULES}"
+          ALL_MODULES="${MODULES},${CRYPTO_MODULES},jdk.unsupported"
 
           echo "Detected modules: $MODULES"
           echo "Adding crypto modules: $CRYPTO_MODULES"
